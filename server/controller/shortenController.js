@@ -1,26 +1,25 @@
-exports.index = function(req, res, next) {
+// ライブラリのインポート
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true });
+ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
+
+const validator = require('validator');
+
+// JSON Schemaのロード
+const shortenSchema = require('../schema/shorten.json');
+
+exports.index = function (req, res, next) {
     (async () => {
-        try {
-            await successFunction();
-        } catch (e) {
-            throw new Error('heavyFunctionのエラー');
+        if(!ajv.validate(shortenSchema, req.body)){
+            res.status(400).json({error:'Invalid JSON format'});
+            return;
         }
-
-        try {
-            await errorFunction();
-        } catch (e) {
-            throw new Error('heavyErrorFunctionのエラー');
+        if(!validator.isURL(req.body.url)){
+            res.status(400).json({error:'Invalid URL format'});
+            return;
         }
+        const url = encodeURI(req.body.url);
 
-        res.send("end");
+        res.json({a:url})
     })().catch(next);
 };
-
-async function successFunction() {
-    return true;
-}
-
-async function errorFunction() {
-    throw new Error('エラー発生');
-    return true;
-}

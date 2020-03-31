@@ -1,10 +1,15 @@
+// ライブラリのインポート
 const express = require('express');
-const bodyParser = require('body-parser');
 const router = require('./routes/index');
+const {Datastore} = require('@google-cloud/datastore');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use (function (error, req, res, next){
+  res.status(400).json({'error':'Invalid JSON format'})
+});
+app.use(express.urlencoded({ extended: true }));
 
 // CORS
 app.use(function(req, res, next) {
@@ -21,10 +26,9 @@ app.use(function(req, res, next) {
 // Router
 app.use(router);
 
-// Error Handler
+// エラーハンドラ
 app.use(function (err, req, res, next) {
-  console.error(err.stack)
-  res.status(500).send(err.message)
+  res.status(500).json({'error':err.message})
 })
 
 const PORT = 8080;
