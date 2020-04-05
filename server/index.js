@@ -1,7 +1,8 @@
+'use strict';
+
 // ライブラリのインポート
 const express = require('express');
 const router = require('./routes/index');
-const {Datastore} = require('@google-cloud/datastore');
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 // CORS
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Methods', 'GET,POST');
   res.header('Access-Control-Allow-Headers', 'Content-type,Accept,x-access-token,X-Key');
   if (req.method == 'OPTIONS') {
     res.status(200).end();
