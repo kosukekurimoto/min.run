@@ -1,5 +1,5 @@
 # min.run
-cliから使える短縮URLサービス(https://min.run)  
+cliから使える無料の短縮URLサービス(https://min.run)  
 
 ## 使い方
 - 短縮URLの発行  
@@ -77,12 +77,9 @@ $ gcloud run deploy server \
   --image gcr.io/<Google Cloud Project ID>/server \
   --platform managed \
   --region asia-northeast1 \
-  --allow-unauthenticated
-# 例: gcloud run deploy server \
-# --image gcr.io/min/server \
-# --platform managed \
-# --region asia-northeast1 \
-# --allow-unauthenticated
+  --allow-unauthenticated \
+  --max-instances 3 \
+  --timeout 10s
 ```
 
 ## TIPS
