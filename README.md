@@ -1,5 +1,5 @@
 # min.run
-Cloud Runで動作する短縮URLサービス(https://min.run)  
+cliから使える短縮URLサービス(https://min.run)  
 
 ## 使い方
 - 短縮URLの発行  
