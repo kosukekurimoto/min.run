@@ -1,6 +1,6 @@
 # Use the official Node.js 10 image.
 # https://hub.docker.com/_/node
-FROM node:10
+FROM node:10-slim
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app
@@ -17,4 +17,5 @@ RUN npm install --only=production
 COPY . .
 
 # Run the web service on container startup.
+ENV GOOGLE_APPLICATION_CREDENTIALS "/usr/src/app/service-account.json"
 CMD [ "npm", "start" ]
