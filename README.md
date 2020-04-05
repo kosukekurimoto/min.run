@@ -1,5 +1,18 @@
 # min.run
-Cloud Runで動作する短縮URLサービス
+Cloud Runで動作する短縮URLサービス(https://min.run)  
+
+## 使い方
+- 短縮URLの発行  
+```
+$ curl -X POST -H 'Content-Type:application/json' -d '{"url":"<短縮したいURL>"}' https://min.run/shorten
+# 例: curl -X POST -H 'Content-Type:application/json' -d '{"url":"https://example.com/?hoge=piyo"}' https://min.run/shorten
+```
+- 結果(結果に含まれるshortUrlの値が短縮URLになります)
+```
+{"urlCode":"mZQJF","originalUrl":"https://example.com/?hoge=piyo","shortUrl":"https://min.run/mZQJF"}
+```
+
+# 自分専用のmin.runサーバーを構築したい方は以下を参考
 
 ## Setup
 - Google Cloudプロジェクトの新規作成
