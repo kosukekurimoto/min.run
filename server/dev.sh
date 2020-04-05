@@ -1,3 +1,3 @@
 #!/bin/sh
-export GOOGLE_APPLICATION_CREDENTIALS="/Users/kousukekurimoto/Documents/develop/min.run/server/service-account.json"
+export GOOGLE_APPLICATION_CREDENTIALS="./service-account.json"
 npm run dev
