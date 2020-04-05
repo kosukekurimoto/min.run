@@ -76,3 +76,5 @@ $ gcloud run deploy server \
 - カスタムドメインのマッピング  
 [公式ドキュメント](https://cloud.google.com/run/docs/mapping-custom-domains?hl=ja)
 
+## License
+MIT
