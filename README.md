@@ -4,8 +4,8 @@ cliから使える無料の短縮URLサービス(https://min.run)
 ## 使い方
 - 短縮URLの発行  
 ```
-$ curl -X POST -H 'Content-Type:application/json' -d '{"url":"<短縮したいURL>"}' https://min.run/shorten
-# 例: curl -X POST -H 'Content-Type:application/json' -d '{"url":"https://example.com/?hoge=piyo"}' https://min.run/shorten
+$ curl -X POST -H 'Content-Type:application/json' -d '{"url":"<短縮したいURL>"}' https://<Your Domain Name>/api/url
+# 例: curl -X POST -H 'Content-Type:application/json' -d '{"url":"https://example.com/?hoge=piyo"}' https://min.run/api/url
 ```
 - 結果(結果に含まれるshortUrlの値が短縮URLになります)
 ```
