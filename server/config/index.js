@@ -6,7 +6,8 @@ const config = {
     URLCODE_MIN_LENGTH: 5,
     URLCODE_VALUES: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
     RESERVED_PATHS: [
-        'shorten',
+        'page',
+        'admin',
         'api'
     ]
 };

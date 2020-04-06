@@ -1,11 +1,15 @@
 // ライブラリのインポート
 const validator = require('validator');
+const { Firestore, FieldValue } = require('@google-cloud/firestore');
 
 // Config値のロード
 const config = require('../config');
 
-// Service
-const url = require('../service/url');
+// 初期化
+const firestore = new Firestore({
+    projectId: config.GCP_PROJECT,
+    keyFilename: config.GCP_SERVICE_ACCOUNT_FILE,
+});
 
 exports.index = function (req, res, next) {
     (async () => {
@@ -14,9 +18,12 @@ exports.index = function (req, res, next) {
             res.status(400).json({ error: 'Invalid URL Code' });
             return;
         }
-        
-        // 短縮URLの情報を取得
-        const doc = await url.get(req.params.code);
+
+        // URL Codeを検索
+        const urlDocRef = firestore.collection(config.FIRESTORE_COLLECTION_URL).doc(req.params.code);
+        const doc = await urlDocRef.get().catch(function (err) {
+            throw new Error('Confirm Existence Of UrlCode Failed');
+        });
 
         // URL Codeが存在しない
         if (!doc.exists) {

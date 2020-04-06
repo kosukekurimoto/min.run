@@ -72,7 +72,7 @@ $ ./test.sh
 
 ## Deploy
 ```
-$ gcloud builds submit --tag gcr.io/<Google Cloud Project ID>/minrun/server
+$ gcloud builds submit --tag gcr.io/<Google Cloud Project ID>/server
 $ gcloud run deploy server \
   --image gcr.io/<Google Cloud Project ID>/server \
   --platform managed \

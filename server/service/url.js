@@ -1,18 +1,9 @@
 // ライブラリのインポート
-const Ajv = require('ajv');
-const ajv = new Ajv({ allErrors: true });
-ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
-
-const validator = require('validator');
-
 const { customAlphabet } = require('nanoid');
 
 const { Firestore, FieldValue } = require('@google-cloud/firestore');
 
-// JSON Schemaのロード
-const shortenSchema = require('../schema/shorten.json');
-
-// Config値のロード
+// Configのロード
 const config = require('../config');
 
 // 初期化
@@ -21,46 +12,44 @@ const firestore = new Firestore({
     keyFilename: config.GCP_SERVICE_ACCOUNT_FILE,
 });
 
-exports.index = function (req, res, next) {
-    (async () => {
-        // リクエストされたJSONのバリデーション
-        if (!ajv.validate(shortenSchema, req.body)) {
-            res.status(400).json({ error: 'Invalid JSON format' });
-            return;
-        }
-        // URLフォーマットのバリデーション
-        if (!validator.isURL(req.body.url)) {
-            res.status(400).json({ error: 'Invalid URL format' });
-            return;
-        }
-        const originalUrl = encodeURI(req.body.url); // 元URL
-        const urlCode = await generateUrlCode();
+/*
+ * 新規作成
+ */
+async function create(originalUrl){
+    const urlCode = await generateUrlCode();
 
-        // Firestoreに保存するドキュメント
-        let urlDoc = {
-            urlCode: urlCode,
-            originalUrl: originalUrl,
-            shortUrl: config.BASE_URL + urlCode,
-            updatedAt: FieldValue.serverTimestamp()
-        };
+    // Firestoreに保存するドキュメント
+    let urlDoc = {
+        urlCode: urlCode,
+        originalUrl: originalUrl,
+        shortUrl: config.BASE_URL + urlCode,
+        updatedAt: FieldValue.serverTimestamp()
+    };
 
-        // Firestoreに保存
-        const urlDocRef = firestore.collection(config.FIRESTORE_COLLECTION_URL).doc(urlCode);
-        try {
-            await urlDocRef.set(urlDoc, { merge: true });
-        } catch (error) {
-            console.log(error);
-            throw new Error(`Failed to save data`);
-            return;
-        }
+    // Firestoreに保存
+    const urlDocRef = firestore.collection(config.FIRESTORE_COLLECTION_URL).doc(urlCode);
+    try {
+        await urlDocRef.set(urlDoc, { merge: true });
+    } catch (error) {
+        console.log(error);
+        throw new Error(`Failed to save data`);
+        return;
+    }
 
-        res.json({
-            urlCode: urlDoc.urlCode,
-            originalUrl: originalUrl,
-            shortUrl: config.BASE_URL + urlCode
-        });
-    })().catch(next);
-};
+    return urlDoc;
+}
+
+/*
+ * 1件取得
+ */
+async function get(urlcode){
+    // URL Codeを検索
+    const urlDocRef = firestore.collection(config.FIRESTORE_COLLECTION_URL).doc(urlcode);
+    const doc = await urlDocRef.get().catch(function (err) {
+        throw new Error('Confirm Existence Of UrlCode Failed');
+    });
+    return doc;
+}
 
 /*
  * 短縮URL用のユニークコードの生成
@@ -102,4 +91,9 @@ async function confirmExistenceOfUrlCode(urlCode) {
     }
 
     return confirm;
+}
+
+module.exports = {
+    create,
+    get
 }
