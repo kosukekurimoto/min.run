@@ -6,14 +6,15 @@ const router = require('./routes/index');
 
 const app = express();
 
-app.use(express.json());
-app.use (function (error, req, res, next){
-  res.status(400).json({'error':'Invalid JSON format'})
+app.use(express.json({ limit: '10kb' }));
+app.use(function (error, req, res, next) {
+  res.status(400).json({ 'error': 'Invalid JSON format' })
+  return;
 });
 app.use(express.urlencoded({ extended: true }));
 
 // CORS
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,POST');
   res.header('Access-Control-Allow-Headers', 'Content-type,Accept,x-access-token,X-Key');
@@ -29,7 +30,8 @@ app.use(router);
 
 // エラーハンドラ
 app.use(function (err, req, res, next) {
-  res.status(500).json({'error':err.message})
+  res.status(500).json({ 'error': err.message })
+  return;
 })
 
 const PORT = 8080;

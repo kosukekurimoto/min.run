@@ -1,15 +1,11 @@
 // ライブラリのインポート
 const validator = require('validator');
-const { Firestore, FieldValue } = require('@google-cloud/firestore');
 
 // Config値のロード
 const config = require('../config');
 
-// 初期化
-const firestore = new Firestore({
-    projectId: config.GCP_PROJECT,
-    keyFilename: config.GCP_SERVICE_ACCOUNT_FILE,
-});
+// Service
+const url = require('../service/url');
 
 exports.index = function (req, res, next) {
     (async () => {
@@ -19,19 +15,17 @@ exports.index = function (req, res, next) {
             return;
         }
 
-        // URL Codeを検索
-        const urlDocRef = firestore.collection(config.FIRESTORE_COLLECTION_URL).doc(req.params.code);
-        const doc = await urlDocRef.get().catch(function (err) {
-            throw new Error('Confirm Existence Of UrlCode Failed');
-        });
+        const urlCode = req.params.code;
+
+        // 短縮URLの情報を取得
+        const urlData = await url.get(urlCode);
 
         // URL Codeが存在しない
-        if (!doc.exists) {
-            res.status(400).json({ error: '404 Not Found' });
+        if (!urlData) {
+            res.status(404).json({ error: '404 Not Found' });
             return;
         }
 
-        // オリジナルURLにリダイレクト
-        res.redirect(doc.data().originalUrl);
+        res.json(urlData);
     })().catch(next);
 };

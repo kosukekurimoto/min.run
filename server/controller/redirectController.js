@@ -14,17 +14,21 @@ exports.index = function (req, res, next) {
             res.status(400).json({ error: 'Invalid URL Code' });
             return;
         }
-        
-        // 短縮URLの情報を取得
-        const doc = await url.get(req.params.code);
+        const urlCode = req.params.code;
 
-        // URL Codeが存在しない
-        if (!doc.exists) {
-            res.status(400).json({ error: '404 Not Found' });
+        // 短縮URLの情報を取得
+        const urlData = await url.get(urlCode);
+
+        // URL Codeが存在しない場合はエラー
+        if (!urlData) {
+            res.status(403).json({ error: '404 Not Found' });
             return;
         }
 
+        // PV数のカウントアップ
+        await url.countUpPageViews(urlCode);
+
         // オリジナルURLにリダイレクト
-        res.redirect(doc.data().originalUrl);
+        res.redirect(urlData.originalUrl);
     })().catch(next);
 };
