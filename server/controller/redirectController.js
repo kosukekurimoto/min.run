@@ -25,10 +25,10 @@ exports.index = function (req, res, next) {
             return;
         }
 
-        // PV数のカウントアップ
-        await url.countUpPageViews(urlCode);
-
         // オリジナルURLにリダイレクト
         res.redirect(urlData.originalUrl);
+
+        // PV数のカウントアップ
+        await url.countUpPageViews(urlCode);
     })().catch(next);
 };

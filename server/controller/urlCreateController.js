@@ -5,6 +5,8 @@ ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
 
 const validator = require('validator');
 
+const QRCode = require('qrcode')
+
 // JSON Schemaのロード
 const shortenSchema = require('../schema/shorten.json');
 
@@ -33,10 +35,14 @@ exports.index = function (req, res, next) {
         // 短縮URLを作成
         const urlDoc = await url.create(originalUrl);
 
+        // QRコードイメージを生成
+        const qrcodeb64 = await QRCode.toDataURL(config.BASE_URL + urlDoc.urlCode);
+
         res.json({
             urlCode: urlDoc.urlCode,
             originalUrl: originalUrl,
             shortUrl: config.BASE_URL + urlDoc.urlCode,
+            qrCodeImage: qrcodeb64
         });
     })().catch(next);
 };
