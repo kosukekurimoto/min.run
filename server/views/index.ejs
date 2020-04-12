@@ -8,22 +8,25 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+    <!-- highlight.js CSS -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
     <title><%= title %></title>
   </head>
   <body>
     <header class="header-global">
-      <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-dark">
+      <nav id="navbar-main" class="navbar fixed-top navbar-expand-lg navbar-dark">
         <div class="container">
           <a class="navbar-brand" href="https://min.run">min.run</a>
         </div>
       </nav>
     </header>
 
-    <section class="section-top pb-7 pb-lg-10 text-white">
+    <section class="section-top pb-1 pb-lg-10 text-white pt-5">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-12 col-md-10 text-center">
-            <h1 class="mb-3">https://min.run/</h1>
+            <h1 class="mb-3">min.run</h1>
             <p class="lead px-lg-5 mb-5">シンプル & 高速 & 無料 短縮URLサービス</p>
             <form action="#">
               <div class="form-group bg-white shadow-soft rounded-pill mb-4 px-3 py-2">
@@ -39,7 +42,7 @@
                     </div>
                   </div>
                   <div class="col-auto">
-                    <button type="submit" class="btn btn-block btn-primary rounded-pill">短縮URLを作成</button>
+                    <button type="submit" class="btn btn-block btn-dark rounded-pill">短縮URLを作成</button>
                   </div>
                 </div>
               </div>
@@ -49,19 +52,74 @@
       </div>
     </section>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <section class="section-middle pt-4 pb-5">
+      <div class="container">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-6"><span class="text-break text-muted">https://cloud.google.com/compute/docs/internal-dns?hl=jahl=jahl=jahl=ja</span></div>
+              <div class="col-auto mr-auto"><span class="text-break"><a href="#" class="text-reset">https://min.run/uBVvF</a></span></div>
+              <div class="col-auto"><span class="copybutton"><button type="button" class="btn btn-light">COPY</button></span></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-6"><span class="text-break text-muted">https://cloud.google.com/compute/docs/internal-dns?hl=jahl=jahl=jahl=ja</span></div>
+              <div class="col-auto mr-auto"><span class="text-break"><a href="#" class="text-reset">https://min.run/uBVvF</a></span></div>
+              <div class="col-auto"><span class="copybutton"><button type="button" class="btn btn-light">COPY</button></span></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section-bottom pt-4 pb-5 h-100">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h5 class="mb-3 text-white">for CURL</h4>
+            <pre><code class="Bash">
+ $ curl -X POST \ 
+   -H 'Content-Type:application/json' \
+   -d '{"url":"<短縮したいURL>"}' \ 
+   localhost:8080/api/url
+            </code></pre>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h5 class="mb-3 text-white">for npm</h4>
+            <pre><code class="Bash">
+ $ npm install minrun 
+ $ minrun <短縮したいURL>
+            </code></pre>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="footer mt-auto py-3">
+      <div class="container">
+        <p class="text-center">©︎min.run</p>
+      </div>
+    </footer>
+
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </body>
   <style>
-    .header-global {
-      background-color: #0948b3;
-    }
     .section-top {
-      padding-top: 10rem;
-      background-color: #0948b3;
+      background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%);
+    }
+    .section-middle {
+      background-color: #f5f8fb;
+    }
+    .section-bottom {
+      background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
     }
   </style>
 </html>
