@@ -18,7 +18,7 @@
     "nanoid": "^3.0.2",
     "qrcode": "^1.4.4",
     "rm": "^0.1.8",
-    "validator": "^13.0.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "quicktype": "^15.0.223"
